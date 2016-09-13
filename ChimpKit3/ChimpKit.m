@@ -172,9 +172,11 @@
 	
 	[dataTask resume];
 	
+    #if TARGET_OS_IPHONE
 	dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	});
+    #endif
 	
 	[self.requests setObject:requestWrapper forKey:[NSNumber numberWithUnsignedInteger:[dataTask taskIdentifier]]];
 	
@@ -208,9 +210,11 @@
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    #if TARGET_OS_IPHONE
 	dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	});
+    #endif
 	
 	ChimpKitRequestWrapper *requestWrapper = [self.requests objectForKey:[NSNumber numberWithUnsignedInteger:[task taskIdentifier]]];
 	
